@@ -25,7 +25,7 @@ public class Main3 {
             int rowAffected = stmt.executeUpdate(query);
 
             if (rowAffected > 0) {
-                System.out.println("Deletion Succesfull, "+ rowAffected + " row(s) affected.");
+                System.out.println("Deletion Successful, "+ rowAffected + " row(s) affected.");
             }
             else {
                 System.out.println("Deletion Failed.");

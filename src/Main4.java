@@ -1,14 +1,14 @@
-// INSERT OPERATION
+// UPDATE OPERATION
 import java.sql.*;
 
-public class Main2 {
+public class Main4 {
     public static void main(String[] args) throws ClassNotFoundException, SQLException{
 
         String url = "jdbc:mysql://localhost:3306/mydatabase";
         String username = "root";
         String password = "mSm@6951";
 
-        String query = "INSERT INTO employees(id, name, job_title, salary) VALUES(4, 'Rahul', 'React Developer', 90000.0);";
+        String query = "UPDATE employees SET job_title = 'Full Stack Developer', salary = 92000.0 WHERE id = 4;";
 
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -25,10 +25,10 @@ public class Main2 {
             int rowAffected = stmt.executeUpdate(query);
 
             if (rowAffected > 0) {
-                System.out.println("Insert Successful, "+ rowAffected + " row(s) affected.");
+                System.out.println("Update Successful, "+ rowAffected + " row(s) affected.");
             }
             else {
-                System.out.println("Insert Failed.");
+                System.out.println("Update Failed.");
             }
 
 
