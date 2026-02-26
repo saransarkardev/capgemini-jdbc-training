@@ -1,15 +1,14 @@
-
+// INSERT OPERATION
 import java.sql.*;
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
+
+public class Main2 {
     public static void main(String[] args) throws ClassNotFoundException, SQLException{
 
         String url = "jdbc:mysql://localhost:3306/mydatabase";
         String username = "root";
         String password = "mSm@6951";
 
-        String query = "SELECT * FROM employees;";
+        String query = "INSERT INTO employees(id, name, job_title, salary) VALUES(4, 'Rahul', 'React Developer', 90000.0);";
 
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -23,23 +22,17 @@ public class Main {
             System.out.println("Connection Established Successfully");
 
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+            int rowAffected = stmt.executeUpdate(query);
 
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                String job_title = rs.getString("job_title");
-                double salary = rs.getDouble("salary");
-
-                System.out.println();
-                System.out.println("=================");
-                System.out.println("Id: "+ id);
-                System.out.println("Name: "+ name);
-                System.out.println("Job Title: "+ job_title);
-                System.out.println("Salary: "+ salary);
+            if (rowAffected > 0) {
+                System.out.println("Insert Succesfull, "+ rowAffected + " row(s) affected.");
+            }
+            else {
+                System.out.println("Insert Failed.");
             }
 
-            rs.close();
+
+
             stmt.close();
             con.close();
             System.out.println();
