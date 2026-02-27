@@ -1,9 +1,12 @@
-//PreparedStatement SELECT Example
+//JDBC BLOB Insert Example – Store Image in Database Using PreparedStatement
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.*;
 import java.util.Scanner;
 
-public class Main6 {
+public class Main7 {
 
     public static void main(String[] args) {
 
@@ -11,7 +14,11 @@ public class Main6 {
         String username = "root";
         String password = "mSm@6951";
 
-        String sqlQuery = "INSERT INTO employees(id, name, job_title, salary) VALUES (?,?,?,?)";
+        String image_path = "/Users/saran/Creative Cloud Files/saran.PNG";
+
+        String sqlQuery = "INSERT INTO image_table(image_data) VALUES(?)";
+
+
 
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -24,41 +31,38 @@ public class Main6 {
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
             System.out.println("Connection Established Successfully!!");
+
+            FileInputStream fileInputStream = new FileInputStream(image_path);
+            byte[] imageData = new byte[fileInputStream.available()];
+            fileInputStream.read(imageData);
+
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-
-            Scanner scanner = new Scanner(System.in);
-            System.out.print("Enter Id: ");
-            int id = scanner.nextInt();
-            scanner.nextLine();
-            System.out.print("Enter Name: ");
-            String name = scanner.nextLine();
-            System.out.print("Enter Job Title: ");
-            String jobTitle = scanner.nextLine();
-            System.out.print("Enter Salary: ");
-            double salary = scanner.nextDouble();
-
-
-            preparedStatement.setInt(1, id);
-            preparedStatement.setString(2, name);
-            preparedStatement.setString(3, jobTitle);
-            preparedStatement.setDouble(4, salary);
-
+            preparedStatement.setBytes(1, imageData);
 
             int rowsAffected = preparedStatement.executeUpdate();
+
             if (rowsAffected > 0) {
-                System.out.println("Data Inserted Successfully.");
+                System.out.println();
+                System.out.println("Image Inserted Successfully.");
             }
             else {
-                System.out.println("Data Insertion Failed!!!");
+                System.out.println("Image Insertion Failed!!");
             }
 
+
+            fileInputStream.close();
             preparedStatement.close();
             connection.close();
+
 
             System.out.println();
             System.out.println("Connection Closed Successfully.");
 
         }  catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
